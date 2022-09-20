@@ -1,25 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import Navbar from "./components/Navbar";
+import Hero from "./components/Hero";
+import Card from "./components/Card";
+import data from "./data";
+import { Divider } from "@mui/material";
 
-function App() {
+export default function App() {
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const cards = data
+    .filter((item) => {
+      return item.title.toLowerCase().includes(searchTerm);
+    })
+    .map((item) => {
+      return <Card key={item.id} item={item} />;
+    });
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="div--all">
+      <Navbar />
+      <Hero />
+      <input
+        type="text"
+        placeholder="search for classes"
+        onChange={(e) => setSearchTerm(e.target.value)}
+        className="search--bar"
+      />
+      <Divider />
+      <section className="cards-list">{cards}</section>
     </div>
   );
 }
-
-export default App;
